@@ -4,6 +4,10 @@ const cors = require('cors');
 const morgan = require('morgan');
 const dbPool = require('./middleware/dbConnectionPool');
 
+if(process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const AuthRoutes = require('./routes/auth');
 
 const app = express();
