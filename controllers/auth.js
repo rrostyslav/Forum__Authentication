@@ -29,8 +29,16 @@ exports.login = async (req, res, next) => {
             error.status = 400;
             return next(error);
         }
-        const access_token = jwt.sign({ userName: user.user_name }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
-        const refresh_token = jwt.sign({ userName: user.user_name }, process.env.REFRESH_TOKEN_SECRET);
+        const access_token = jwt.sign({
+            id: user.id,
+            userName: user.user_name,
+            banned: user.banned
+        }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
+        const refresh_token = jwt.sign({
+            id: user.id,
+            userName: user.user_name,
+            banned: user.banned
+        }, process.env.REFRESH_TOKEN_SECRET);
         await req.con.execute("INSERT INTO sessions VALUES(null, ?, ?, ?)", [refresh_token, fingerPrint, user.user_name]);
         res.status(200).json({
             access_token,
