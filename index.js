@@ -38,3 +38,5 @@ app.use((error, req, res, next) => {
 app.listen(PORT, () => {
     console.log('Microservice: Authentication. Running on port:', PORT)
 })
+
+module.exports = app;
